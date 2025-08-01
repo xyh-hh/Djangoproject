@@ -1,0 +1,15 @@
+{% extends 'library/base.html' %}
+
+{% block title %}
+    {% if publisher %}编辑出版社{% else %}添加出版社{% endif %}
+{% endblock %}
+
+{% block content %}
+    <h2>{% if publisher %}编辑出版社{% else %}添加出版社{% endif %}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">保存</button>
+        <a href="{% url 'publisher-list' %}">取消</a>
+    </form>
+{% endblock %}

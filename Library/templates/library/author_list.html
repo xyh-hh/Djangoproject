@@ -1,0 +1,26 @@
+{% extends 'library/base.html' %}
+
+{% block title %}作者列表{% endblock %}
+
+{% block content %}
+    <h2>作者列表</h2>
+    <p><a href="{% url 'author-create' %}">添加新作者</a></p>
+
+    {% if authors %}
+        <ul>
+            {% for author in authors %}
+                <li>
+                    {{ author.name }}（年龄：{{ author.age }}）
+                    <br>
+                    <small>
+                        <a href="{% url 'author-detail' author.id %}">查看</a> |
+                        <a href="{% url 'author-update' author.id %}">编辑</a> |
+                        <a href="{% url 'author-delete' author.id %}">删除</a>
+                    </small>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>暂无作者数据</p>
+    {% endif %}
+{% endblock %}

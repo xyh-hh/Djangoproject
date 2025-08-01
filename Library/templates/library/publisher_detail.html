@@ -1,0 +1,15 @@
+{% extends 'library/base.html' %}
+
+{% block title %}{{ publisher.name }}{% endblock %}
+
+{% block content %}
+    <h2>{{ publisher.name }}</h2>
+    {% if publisher.address %}
+        <p>地址：{{ publisher.address }}</p>
+    {% endif %}
+    <p>
+        <a href="{% url 'publisher-update' publisher.id %}">编辑</a> |
+        <a href="{% url 'publisher-delete' publisher.id %}">删除</a> |
+        <a href="{% url 'publisher-list' %}">返回列表</a>
+    </p>
+{% endblock %}

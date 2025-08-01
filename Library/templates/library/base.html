@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+     <title>{% block title %}图书馆系统{% endblock %}</title>
+</head>
+<body>
+    <h1>图书馆管理系统</h1>
+    <nav>
+        <a href="{% url 'book-list' %}">图书</a> |
+        <a href="{% url 'author-list' %}">作者</a> |
+        <a href="{% url 'publisher-list' %}">出版社</a>
+    </nav>
+    <hr>
+    {% block content %}{% endblock %}
+</body>
+</html>
+
