@@ -17,6 +17,7 @@ urlpatterns = [
     path('authors/<int:pk>/delete/', views.author_delete, name='author-delete'),
 
     # 出版社相关URL
+    path('all_publisher/',views.PublisherView.as_view(), name='获取所有出版社信息'),
     path('publishers/', views.publisher_list, name='publisher-list'),
     path('publishers/<int:pk>/', views.publisher_detail, name='publisher-detail'),
     path('publishers/new/', views.publisher_create, name='publisher-create'),

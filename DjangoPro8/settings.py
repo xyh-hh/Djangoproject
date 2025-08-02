@@ -78,10 +78,10 @@ WSGI_APPLICATION = 'DjangoPro8.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": 'django_library',
+        "NAME": 'dp',
         "HOST": "127.0.0.1",
         "PORT": 3306,
-        "PASSWORD":"xyh283399",
+        "PASSWORD":"zMM19193482508@",
         "USER": "root"
     }
 }

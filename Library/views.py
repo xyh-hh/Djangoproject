@@ -1,9 +1,32 @@
+<<<<<<< HEAD
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+=======
+from django.shortcuts import render, get_object_or_404, redirect
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+>>>>>>> e15b126555cd5d5f6fa788599f0b534b5a772845
 from .models import Book, Author, Publisher
 from .forms import BookForm, AuthorForm, PublisherForm
+from .ser.pub_ser import PublisherSerializer
+
+
+class PublisherView(APIView):
+    """
+    获取所有出版社的信息
+    """
+    def get(self, request):
+        try:
+            publisher = Publisher.objects.all()
+            serializer = PublisherSerializer(publisher, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 # 图书API
