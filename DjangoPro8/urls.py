@@ -18,9 +18,12 @@ from django.contrib import admin  # 项目
 from django.urls import path, include
 from django.views.generic import RedirectView
 
+from Library.models import Book
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('catalog/', include('Library.urls')),
     path('', RedirectView.as_view(pattern_name='book-list')),
+    path('',include('Library.urls')),
 ]
 
