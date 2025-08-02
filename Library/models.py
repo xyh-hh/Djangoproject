@@ -32,6 +32,10 @@ class Book(models.Model):
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE,related_name='books')
     isbn = models.CharField(max_length=20, unique=True)
 
+    def __init__(self, *args: Any, **kwargs: Any):
+        super().__init__(args, kwargs)
+        self.publication_date = None
+
     def __str__(self):
         return self.title
     def get_absolute_url(self):

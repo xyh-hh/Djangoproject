@@ -1,39 +1,55 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
 from .models import Book, Author, Publisher
 from .forms import BookForm, AuthorForm, PublisherForm
 
-# 图书视图
+
+# 图书API
 def book_list(request):
-    return render(request, 'library/book_list.html', {'books': Book.objects.all()})
+   books = Book.objects.all()
+   response_text = "图书列表：\n"
+   for book in books:
+       response_text += f"{book.title}\t{book.author}\t{book.publisher}\n"
+    return HttpResponse(response_text,content_type="text/plain")
 
 def book_detail(request, pk):
-    return render(request, 'library/book_detail.html', {'book': get_object_or_404(Book, pk=pk)})
-
+    book = get_object_or_404(Book, pk=pk)
+    detail_text = f"图书详情：\n"
+    detail_text += f"ID: {book.id}\n"
+    detail_text += f"标题: {book.title}\n"
+    detail_text += f"作者: {book.author.name}\n"
+    detail_text += f"出版社: {book.publisher.name}\n"
+    detail_text += f"ISBN: {book.isbn}\n"
+    return HttpResponse(detail_text, content_type='text/plain')
+@csrf_exempt
 def book_create(request):
     if request.method == 'POST':
         form = BookForm(request.POST)
         if form.is_valid():
-            return redirect(form.save().get_absolute_url())
-    else:
-        form = BookForm()
-    return render(request, 'library/book_form.html', {'form': form})
-
+            book = form.save()
+            return HttpResponse(f"图书创建成功: {book.title}(ID:{book.id})", status=201, content_type='text/plain')
+        return HttpResponse(f"图书创建失败: {form.errors}", status=400, content_type='text/plain')
+    return HttpResponse("请使用POST请求创建图书", status=405, content_type='text/plain')
+@csrf_exempt
 def book_update(request, pk):
     book = get_object_or_404(Book, pk=pk)
     if request.method == 'POST':
         form = BookForm(request.POST, instance=book)
         if form.is_valid():
-            return redirect(form.save().get_absolute_url())
-    else:
-        form = BookForm(instance=book)
-    return render(request, 'library/book_form.html', {'form': form, 'book': book})
+            book = form.save()
+            return HttpResponse(f"图书更新成功：{book.title}(ID:{book.id})", status=201, content_type='text/plain')
+        return HttpResponse(f"图书更新失败{form.errors}", status=400, content_type='text/plain')
+    return HttpResponse("请使用POST请求更新图书", status=405, content_type='text/plain')
 
+@csrf_exempt
 def book_delete(request, pk):
     book = get_object_or_404(Book, pk=pk)
     if request.method == 'POST':
         book.delete()
-        return redirect('book-list')
-    return render(request, 'library/book_delete.html', {'book': book})
+        return HttpResponse(f"图书删除成功: {book_title}", content_type='text/plain')
+    return HttpResponse(f"请使用POST请求删除图书", status=405, content_type='text/plain')
 
 # 作者视图
 def author_list(request):
